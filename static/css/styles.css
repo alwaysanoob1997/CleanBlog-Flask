@@ -331,6 +331,7 @@ th {
 
 label {
   display: inline-block;
+  font-weight: bold;
 }
 
 button {
@@ -485,6 +486,15 @@ progress {
 
 [hidden] {
   display: none !important;
+}
+
+.danger-notif{
+    color: red;
+    border: 2px, red;
+}
+
+.form-group{
+    margin: 2rem 0;
 }
 
 .lead {
