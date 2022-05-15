@@ -25,7 +25,7 @@
                         </a>
                         <p class="post-meta">
                             Posted by
-                            <a href="#!">{{ post.author }}</a>
+                            <a href="#!">{{ post.author.name }}</a>
                             {{ post.date }}
                         </p>
                     </div>
@@ -34,9 +34,11 @@
                     {% endfor %}
 
                     <!-- Pager-->
+                    {% if current_user.admin_status %}
                     <div class="d-flex justify-content-end mb-4">
                         <a class="btn btn-primary text-uppercase" href="{{ url_for('add_post') }}">Create New Post</a>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
