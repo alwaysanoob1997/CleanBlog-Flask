@@ -488,10 +488,6 @@ progress {
   display: none !important;
 }
 
-.danger-notif{
-    color: red;
-    border: 2px, red;
-}
 
 .form-group{
     margin: 2rem 0;

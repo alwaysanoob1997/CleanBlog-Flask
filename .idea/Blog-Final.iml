@@ -5,5 +5,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="Intro_Flask" />
+    <orderEntry type="module" module-name="basic_auth" />
   </component>
 </module>

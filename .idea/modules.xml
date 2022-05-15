@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Blog-Final.iml" filepath="$PROJECT_DIR$/.idea/Blog-Final.iml" />
       <module fileurl="file://$PROJECT_DIR$/../Intro_Flask/.idea/Intro_Flask.iml" filepath="$PROJECT_DIR$/../Intro_Flask/.idea/Intro_Flask.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Intro_Flask/Flask_form_for_basic_auth/.idea/basic_auth.iml" filepath="$PROJECT_DIR$/../Intro_Flask/Flask_form_for_basic_auth/.idea/basic_auth.iml" />
     </modules>
   </component>
 </project>

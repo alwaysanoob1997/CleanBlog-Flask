@@ -20,10 +20,78 @@
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        <form action="url_for('add_post')" method="post" novalidate>
+                        <form action="{{url_for('add_post')}}" method="post" novalidate>
                         {{ ckeditor.load() }}
                         {{ ckeditor.config(name='body') }}
-                        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+                        {{ form.csrf_token }}
+
+                        <fieldset>
+                            <legend class="border-bottom mb-4">
+                                Blog Post
+                            </legend>
+                            <div class="form-group">
+                                {{ form.title.label }}
+                                {% if form.title.errors %}
+                                    {{ form.title(class="form-control form-control-lg is-invalid") }}
+                                    {% for error in form.title.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.title(class="form-control form-control-lg") }}
+                                {% endif %}
+                            </div>
+                            <div class="form-group">
+                                {{ form.subtitle.label }}
+                                {% if form.subtitle.errors %}
+                                    {{ form.subtitle(class="form-control form-control-lg is-invalid") }}
+                                    {% for error in form.subtitle.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.subtitle(class="form-control form-control-lg") }}
+                                {% endif %}
+
+                            </div>
+                            <div class="form-group">
+                                {{ form.img_url.label }}
+                                {% if form.img_url.errors %}
+                                    {{ form.img_url(class="form-control form-control-lg is-invalid") }}
+                                    {% for error in form.img_url.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.img_url(class="form-control form-control-lg") }}
+                                {% endif %}
+
+                            </div>
+                            <div class="form-group">
+                                {{ form.author.label }}
+                                {% if form.author.errors %}
+                                    {{ form.author(class="form-control form-control-lg is-invalid") }}
+                                    {% for error in form.author.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.author(class="form-control form-control-lg") }}
+                                {% endif %}
+
+                            </div>
+                            <div class="form-group">
+                                {{ form.body.label }}
+                                {% if form.body.errors %}
+                                    {{ form.body(class="form-control form-control-lg is-invalid") }}
+                                    {% for error in form.body.errors %}
+                                    <span class="text-danger">{{ error }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ form.body(class="form-control form-control-lg") }}
+                                {% endif %}
+
+                            </div>
+                            <div class="form-group">
+                                {{ form.submit(class="btn btn-primary") }}
+                            </div>
+                        </fieldset>
                         </form>
                     </div>
                 </div>
