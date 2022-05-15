@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request
 from flask_ckeditor import CKEditor
 from forms import *
 from flask_sqlalchemy import SQLAlchemy
@@ -43,6 +43,10 @@ class BlogPost(db.Model):
         """Returns the column names of the blogpost table object"""
         return [column.name for column in BlogPost.__table__.columns]
 
+    def to_dict(self):
+        """Returns the data in a particular table as a dictionary """
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+
 class Comments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(250), nullable=False)
@@ -53,6 +57,15 @@ class Comments(db.Model):
 
 db.create_all()
 
+
+@app.route('/delete-post/<int:index>', methods=["POST"])
+def delete_post(index):
+    try:
+        post_to_delete = BlogPost.query.get(index)
+        db.session.delete(post_to_delete)
+        db.session.commit()
+    finally:
+        return redirect(url_for('index'))
 
 @app.route('/add-post', methods=["POST", "GET"])
 def add_post():
@@ -68,6 +81,31 @@ def add_post():
     return render_template('add_new_post.html', form=form)
 
 
+@app.route('/edit-post/<int:index>', methods=["POST", "GET"])
+def edit_post(index):
+    requested_post = BlogPost.query.get(index)
+    other_posts = [blog.title for blog in BlogPost.query.all() if blog.title != requested_post.title]
+    edit_form = AddBlogForm(other_posts)
+
+    if request.method == 'GET':
+        edit_form.process(**requested_post.to_dict())
+
+    if edit_form.validate_on_submit():
+        requested_post.title = edit_form.title.data
+        requested_post.subtitle = edit_form.subtitle.data
+        requested_post.body = edit_form.body.data
+        requested_post.img_url = edit_form.img_url.data
+        db.session.commit()
+        return redirect(url_for('post', index=requested_post.id))
+    return render_template('add_new_post.html', form=edit_form, edit=requested_post)
+
+
+@app.route('/post/<int:index>')
+def post(index):
+    requested_post = BlogPost.query.get(index)
+    return render_template('post.html', post=requested_post)
+
+
 @app.route('/')
 def index():
     all_blogs = BlogPost.query.all()
@@ -81,11 +119,6 @@ def about():
 def contact():
     return render_template('contact.html')
 
-@app.route('/post/<int:index>')
-def post(index):
-    requested_post = BlogPost.query.get(index)
-    return render_template('post.html', post=requested_post)
-
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
