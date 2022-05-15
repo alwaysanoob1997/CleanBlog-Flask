@@ -1,10 +1,11 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_ckeditor import CKEditor
 from forms import *
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_bootstrap import Bootstrap
 import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 
@@ -104,6 +105,43 @@ def edit_post(index):
 def post(index):
     requested_post = BlogPost.query.get(index)
     return render_template('post.html', post=requested_post)
+
+
+@app.route('/register', methods=["POST", "GET"])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+
+        present = User.query.filter_by(email=form.email.data).first()
+        if present:
+            flash("You're already registered. Just log in", 'success')
+            return redirect(url_for("login"))
+
+        pw_hash = generate_password_hash(form.password.data, salt_length=8)
+        new_user = User(
+            email=form.email.data,
+            name=form.name.data,
+            password=pw_hash
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('register.html', form=form)
+
+@app.route("/login", methods=["POST", "GET"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        present = User.query.filter_by(email=form.email.data).first()
+        if not present:
+            flash("You haven't registered yet", 'danger ')
+            return redirect(url_for("login"))
+
+        if check_password_hash(present.password, form.password.data):
+            return redirect(url_for('index'))
+
+    return render_template('login.html', form=form)
+
 
 
 @app.route('/')

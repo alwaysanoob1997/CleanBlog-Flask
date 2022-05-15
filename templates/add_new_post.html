@@ -1,34 +1,33 @@
-
 {% include 'header.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
 <!-- Page Header-->
-        <header class="masthead" style="background-image: url({{ url_for('static', filename='assets/img/home-bg.jpg') }}">
-            <div class="container position-relative px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
-                        <div class="site-heading">
-                            {% if edit %}
-                            <h1>Edit your Post</h1>
-                            {% else %}
-                            <h1>Make A Post!</h1>
-                            {% endif %}
-                            <span class="subheading">Its gonna be good... No, really, I believe in you.. </span>
-                        </div>
-                    </div>
+<header class="masthead" style="background-image: url({{ url_for('static', filename='assets/img/home-bg.jpg') }}">
+    <div class="container position-relative px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="site-heading">
+                    {% if edit %}
+                    <h1>Edit your Post</h1>
+                    {% else %}
+                    <h1>Make A Post!</h1>
+                    {% endif %}
+                    <span class="subheading">Its gonna be good... No, really, I believe in you.. </span>
                 </div>
             </div>
-        </header>
+        </div>
+    </div>
+</header>
 
 <!--        Body-->
-        <div class="mb-4">
-            <div class="container px-4 px-lg-5">
-                <div class="row gx-4 gx-lg-5 justify-content-center">
-                    <div class="col-md-10 col-lg-8 col-xl-7">
+<div class="mb-4">
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
 
-                        {% if edit %}
-                        <form action="{{url_for('edit_post', index=edit.id)}}" method="post" novalidate>
-                        {% else %}
-                        <form action="{{url_for('add_post')}}" method="post" novalidate>
+                {% if edit %}
+                <form action="{{url_for('edit_post', index=edit.id)}}" method="post" novalidate>
+                    {% else %}
+                    <form action="{{url_for('add_post')}}" method="post" novalidate>
                         {% endif %}
 
                         {{ ckeditor.load() }}
@@ -42,59 +41,59 @@
                             <div class="form-group">
                                 {{ form.title.label }}
                                 {% if form.title.errors %}
-                                    {{ form.title(class="form-control form-control-lg is-invalid") }}
-                                    {% for error in form.title.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                    {% endfor %}
+                                {{ form.title(class="form-control form-control-lg is-invalid") }}
+                                {% for error in form.title.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
                                 {% else %}
-                                    {{ form.title(class="form-control form-control-lg") }}
+                                {{ form.title(class="form-control form-control-lg") }}
                                 {% endif %}
                             </div>
                             <div class="form-group">
                                 {{ form.subtitle.label }}
                                 {% if form.subtitle.errors %}
-                                    {{ form.subtitle(class="form-control form-control-lg is-invalid") }}
-                                    {% for error in form.subtitle.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                    {% endfor %}
+                                {{ form.subtitle(class="form-control form-control-lg is-invalid") }}
+                                {% for error in form.subtitle.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
                                 {% else %}
-                                    {{ form.subtitle(class="form-control form-control-lg") }}
+                                {{ form.subtitle(class="form-control form-control-lg") }}
                                 {% endif %}
 
                             </div>
                             <div class="form-group">
                                 {{ form.img_url.label }}
                                 {% if form.img_url.errors %}
-                                    {{ form.img_url(class="form-control form-control-lg is-invalid") }}
-                                    {% for error in form.img_url.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                    {% endfor %}
+                                {{ form.img_url(class="form-control form-control-lg is-invalid") }}
+                                {% for error in form.img_url.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
                                 {% else %}
-                                    {{ form.img_url(class="form-control form-control-lg") }}
+                                {{ form.img_url(class="form-control form-control-lg") }}
                                 {% endif %}
 
                             </div>
                             <div class="form-group">
                                 {{ form.author.label }}
                                 {% if form.author.errors %}
-                                    {{ form.author(class="form-control form-control-lg is-invalid") }}
-                                    {% for error in form.author.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                    {% endfor %}
+                                {{ form.author(class="form-control form-control-lg is-invalid") }}
+                                {% for error in form.author.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
                                 {% else %}
-                                    {{ form.author(class="form-control form-control-lg") }}
+                                {{ form.author(class="form-control form-control-lg") }}
                                 {% endif %}
 
                             </div>
                             <div class="form-group">
                                 {{ form.body.label }}
                                 {% if form.body.errors %}
-                                    {{ form.body(class="form-control form-control-lg is-invalid") }}
-                                    {% for error in form.body.errors %}
-                                    <span class="text-danger">{{ error }}</span>
-                                    {% endfor %}
+                                {{ form.body(class="form-control form-control-lg is-invalid") }}
+                                {% for error in form.body.errors %}
+                                <span class="text-danger">{{ error }}</span>
+                                {% endfor %}
                                 {% else %}
-                                    {{ form.body(class="form-control form-control-lg") }}
+                                {{ form.body(class="form-control form-control-lg") }}
                                 {% endif %}
 
                             </div>
@@ -102,11 +101,11 @@
                                 {{ form.submit(class="btn btn-primary text-uppercase") }}
                             </div>
                         </fieldset>
-                        </form>
-                    </div>
-                </div>
+                    </form>
             </div>
         </div>
+    </div>
+</div>
 
 {% include 'footer.html' %}
 
