@@ -2,7 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 <!-- Page Header-->
-<header class="masthead" style="background-image: url('{{ post.img_url }}')">
+<header class="masthead" style="background-image: url({{ post.img_url }})">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -58,26 +58,24 @@
 
                     {% for comment in post.comments %}
                     <tr>
-                        <td>
+                        <td class="imagetd">
                             <div class="commenterImage">
                                 <img src="{{ comment.owner.email | gravatar }}"/>
                             </div>
                         </td>
 
-                        <td>
+                        <td class="texttd">
                             <div class="commentText">
                                 <p> {{ comment.content }} </p>
                                 <span class="date sub-text">{{ comment.owner.name }}</span>
                             </div>
                         </td>
 
-                        <td>
-                            <div class="right">
+                        <td class="deltd">
                                 {% if current_user.is_authenticated and comment.owner.id == current_user.id %}
                                 <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"
                                    class="btn btn-danger btn-sm text-uppercase">Del </a>
                                 {% endif %}
-                            </div>
                         </td>
                     </tr>
 

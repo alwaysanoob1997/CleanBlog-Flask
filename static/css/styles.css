@@ -488,13 +488,20 @@ progress {
   display: none !important;
 }
 
+td.imagetd, td.deltd {
+    width:5%;
+}
+td.texttd{
+    width:80%;
+}
+
 .commentText{
     word-break: break-all;
 }
 
 .comment-container{
     overflow:auto;
-    height:600px;
+    max-height:600px;
 }
 
 .commentBox{

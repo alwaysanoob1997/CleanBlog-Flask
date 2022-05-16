@@ -127,8 +127,13 @@ def make_admin():
 @admin_only
 def delete_post(index):
     try:
+
         post_to_delete = BlogPost.query.get(index)
+        post_comments = post_to_delete.comments
+        for comment in post_comments:
+            db.session.delete(comment)
         db.session.delete(post_to_delete)
+
         db.session.commit()
     finally:
         return redirect(url_for('index'))
