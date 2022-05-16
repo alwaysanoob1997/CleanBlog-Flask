@@ -11,7 +11,6 @@ from functools import wraps
 from flask_gravatar import Gravatar
 
 
-
 app = Flask(__name__)
 
 app.config['SECRET_KEY'] = '123456789'
@@ -46,6 +45,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(250), nullable=False)
     admin_status = db.Column(db.Boolean, nullable=False)
 
+
 class BlogPost(db.Model):
     __tablename__ = "blogposts"
     id = db.Column(db.Integer, primary_key=True)
@@ -66,6 +66,7 @@ class BlogPost(db.Model):
         """Returns the data in a particular table as a dictionary """
         return {col.name: getattr(self, col.name) for col in self.__table__.columns}
 
+
 class Comments(db.Model):
     __tablename__ = "comments"
     id = db.Column(db.Integer, primary_key=True)
@@ -77,6 +78,7 @@ class Comments(db.Model):
 
 db.create_all()
 
+
 def admin_only(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -85,6 +87,7 @@ def admin_only(f):
         else:
             return abort(403)
     return decorated_function
+
 
 def super_admin(f):
     @wraps(f)
@@ -147,6 +150,7 @@ def add_post():
     if form.validate_on_submit():
         today = datetime.date.today().strftime('%B %d,%Y')
         valid_inputs = {key: value for (key, value) in form.data.items() if key in BlogPost.get_col_names()}
+        valid_inputs['body'] = strip_invalid_html(valid_inputs['body'])
         new_blog = BlogPost(**valid_inputs, date=today, author=current_user)
         db.session.add(new_blog)
         db.session.commit()
@@ -167,7 +171,7 @@ def edit_post(index):
     if edit_form.validate_on_submit():
         requested_post.title = edit_form.title.data
         requested_post.subtitle = edit_form.subtitle.data
-        requested_post.body = edit_form.body.data
+        requested_post.body = strip_invalid_html(edit_form.body.data)
         requested_post.img_url = edit_form.img_url.data
         db.session.commit()
         return redirect(url_for('post', index=requested_post.id))
@@ -233,6 +237,7 @@ def login():
             login_user(present)
             return redirect(url_for('index'))
     return render_template('login.html', form=form)
+
 
 @app.route("/logout")
 def logout():
