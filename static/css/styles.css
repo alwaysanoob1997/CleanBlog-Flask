@@ -488,6 +488,40 @@ progress {
   display: none !important;
 }
 
+.commentText{
+    word-break: break-all;
+}
+
+.comment-container{
+    overflow:auto;
+    height:600px;
+}
+
+.commentBox{
+    margin:100px;
+}
+
+.commenterImage {
+    width:30px;
+    margin-right:5px;
+    height:100%;
+    float:left;
+}
+.commenterImage img {
+    width:100%;
+    border-radius:50%;
+}
+
+.commentText p {
+    margin:0;
+    font-size:1rem;
+}
+.sub-text {
+    color:#aaa;
+    font-family:verdana;
+    font-size:11px;
+}
+
 
 .form-group{
     margin: 2rem 0;

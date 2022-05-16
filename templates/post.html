@@ -1,5 +1,5 @@
 {% include 'header.html' %}
-
+{% import "bootstrap/wtf.html" as wtf %}
 
 <!-- Page Header-->
 <header class="masthead" style="background-image: url('{{ post.img_url }}')">
@@ -39,6 +39,59 @@
 </div>
 {% endif %}
 
+<div class="container px-4 px-lg-5 commentBox">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <!--           Comments Area -->
+        <div class="col-lg-8 col-md-8 py-4 border-top">
+            <h3>Comments:</h3>
+
+            <div class="table-responsive comment-container">
+                <table class="table">
+                    <tbody>
+                    {% if not post.comments %}
+                    <tr>
+                        <td>
+                            <p>Looks empty here. Why don't you say something?</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+
+                    {% for comment in post.comments %}
+                    <tr>
+                        <td>
+                            <div class="commenterImage">
+                                <img src="{{ comment.owner.email | gravatar }}"/>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="commentText">
+                                <p> {{ comment.content }} </p>
+                                <span class="date sub-text">{{ comment.owner.name }}</span>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="right">
+                                {% if current_user.is_authenticated and comment.owner.id == current_user.id %}
+                                <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"
+                                   class="btn btn-danger btn-sm text-uppercase">Del </a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+                    <tbody>
+                </table>
+            </div>
+
+            {% if current_user.is_authenticated %}
+            {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+            {% endif %}
+        </div>
+    </div>
+</div>
 
 
 {% include 'footer.html' %}

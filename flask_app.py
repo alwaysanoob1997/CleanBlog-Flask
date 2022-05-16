@@ -8,6 +8,7 @@ from flask_bootstrap import Bootstrap
 import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
+from flask_gravatar import Gravatar
 
 
 
@@ -25,6 +26,15 @@ Bootstrap(app)
 # Create a login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+gravatar = Gravatar(app,
+                    size=100,
+                    rating='g',
+                    default='retro',
+                    force_default=False,
+                    force_lower=False,
+                    use_ssl=False,
+                    base_url=None)
 
 
 db = SQLAlchemy(app)
@@ -159,10 +169,26 @@ def edit_post(index):
     return render_template('add_new_post.html', form=edit_form, edit=requested_post)
 
 
-@app.route('/post/<int:index>')
+@app.route('/delete-comment/<int:comment_id>', methods=["GET"])
+@login_required
+def delete_comment(comment_id):
+    comment_delete = Comments.query.get(comment_id)
+    post_id = comment_delete.on_blog.id
+    db.session.delete(comment_delete)
+    db.session.commit()
+    return redirect(url_for('post', index=post_id))
+
+
+@app.route('/post/<int:index>', methods=["POST", "GET"])
 def post(index):
     requested_post = BlogPost.query.get(index)
-    return render_template('post.html', post=requested_post)
+    form = CommentForm()
+    if form.validate_on_submit():
+        new_comment = Comments(content=form.body.data, owner=current_user, on_blog=requested_post)
+        db.session.add(new_comment)
+        db.session.commit()
+        return redirect(url_for('post', index=requested_post.id))
+    return render_template('post.html', post=requested_post, form=form)
 
 
 @app.route('/register', methods=["POST", "GET"])

@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Email, URL, NoneOf
 from flask_ckeditor import CKEditorField
-from wtforms import StringField, SubmitField, URLField, EmailField, PasswordField, BooleanField, FieldList, SelectField, Form
+from wtforms import StringField, SubmitField, URLField, EmailField, PasswordField, BooleanField, FieldList, SelectField, Form, TextAreaField
 import email_validator
 from flask import request
 
@@ -31,8 +31,8 @@ class LoginForm(FlaskForm):
 
 
 class CommentForm(FlaskForm):
-    body = StringField("Name:", validators=[DataRequired()])
-    submit = SubmitField("Comment")
+    body = TextAreaField("", validators=[DataRequired()])
+    submit = SubmitField("COMMENT")
 
 def dynamic_form(list_a):
     class Admin(Form):
