@@ -79,7 +79,7 @@ class Comments(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     on_blog_id = db.Column(db.Integer, db.ForeignKey("blogposts.id"))
 
-db.create_all()
+# db.create_all()
 
 
 def admin_only(f):
