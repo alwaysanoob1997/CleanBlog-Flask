@@ -9,11 +9,14 @@ import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 from functools import wraps
 from flask_gravatar import Gravatar
+from dotenv import load_dotenv
+import os
 
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = '123456789'
+load_dotenv(".env")
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog_data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
