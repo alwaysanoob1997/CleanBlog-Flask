@@ -13,11 +13,11 @@ def strip_invalid_html(content):
                     'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'i', 'img',
                     'li', 'ol', 'p', 'pre', 'q', 's', 'small', 'strike',
                     'span', 'sub', 'sup', 'table', 'tbody', 'td', 'tfoot', 'th',
-                    'thead', 'tr', 'tt', 'u', 'ul', 'blockquote', 'cite']
+                    'thead', 'tr', 'tt', 'u', 'ul', 'blockquote', 'cite', 'strong']
 
     allowed_attrs = {
         'a': ['href', 'target', 'title'],
-        'img': ['src', 'alt', 'width', 'height'],
+        'img': ['src', 'alt', 'width', 'height']
     }
 
     cleaned = bleach.clean(content,
